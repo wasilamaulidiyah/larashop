@@ -42,13 +42,27 @@ Route::resource('favorites', 'FavoriteController');
 Route::get('profile', 'Auth\ProfileController@index');
 Route::post('profile', 'Auth\ProfileController@update');
 
+Route::resource('kucing', 'KucingController');
+Route::resource('kucingre', 'KucingReController');
+Route::resource('kucingde', 'KucingDeController');
+
+Route::resource('anjing', 'AnjingController');
+Route::resource('anjingre', 'AnjingReController');
+Route::resource('anjingde', 'AnjingDeController');
+
+Route::resource('diagnosa', 'DiagnosaController');
+
+Route::resource('akunpremium', 'AkunPremiumController');
+
+Route::resource('voucher', 'VoucherController');
+
 Route::group(
 	['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth']],
 	function () {
 		Route::get('dashboard', 'DashboardController@index');
 		Route::resource('categories', 'CategoryController');
 
-		
+
 		Route::resource('products', 'ProductController');
 		Route::get('products/{productID}/images', 'ProductController@images')->name('products.images');
 		Route::get('products/{productID}/add-image', 'ProductController@addImage')->name('products.add_image');
@@ -62,7 +76,7 @@ Route::group(
 		Route::delete('attributes/options/{optionID}', 'AttributeController@remove_option')->name('attributes.remove_option');
 		Route::get('attributes/options/{optionID}/edit', 'AttributeController@edit_option')->name('attributes.edit_option');
 		Route::put('attributes/options/{optionID}', 'AttributeController@update_option')->name('attributes.update_option');
-	
+
 		Route::resource('roles', 'RoleController');
 		Route::resource('users', 'UserController');
 
@@ -84,6 +98,7 @@ Route::group(
 		Route::get('reports/inventory', 'ReportController@inventory');
 		Route::get('reports/payment', 'ReportController@payment');
 	}
+
 );
 
 Auth::routes();

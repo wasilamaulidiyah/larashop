@@ -1,5 +1,5 @@
  <!-- services area start -->
- <div class="services-area wrapper-padding-4 gray-bg pt-120 pb-80">
+ <!-- <div class="services-area wrapper-padding-4 gray-bg pt-120 pb-80">
     <div class="container-fluid">
         <div class="services-wrapper">
             <div class="single-services mb-40">
@@ -32,4 +32,4 @@
         </div>
     </div>
 </div>
-<!-- services area end -->
+services area end -->

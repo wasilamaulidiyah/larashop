@@ -17,6 +17,8 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->boolean('is_premium')->nullable();
+            $table->boolean('is_admin')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -31,6 +33,10 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+    DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+    Schema::dropIfExists('users');
+    DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
+
+
 }

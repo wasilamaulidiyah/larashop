@@ -8,13 +8,18 @@
 		<!-- Aplication Brand -->
 		<div class="app-brand">
 			<a href="{{ url('admin/dashboard') }}">
-			<span class="brand-name">LaraShop Dashboard</span>
+			<span class="brand-name">Pet Care</span>
 			</a>
 		</div>
 		<!-- begin sidebar scrollbar -->
 		<div class="sidebar-scrollbar">
 
 			<!-- sidebar menu -->
+			@if (Auth::user()->hasRole('Admin'))
+                        <div>
+                        {{ Auth::user()->first_name }}
+                        </div>
+                        @endif
 			<ul class="nav sidebar-inner" id="sidebar-menu">
 				<li  class="has-sub  {{ ($currentAdminMenu == 'catalog') ? 'expand active' : ''}}" >
 					<a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#catalog"
@@ -140,7 +145,7 @@
 							</li>
 						</div>
 					</ul>
-				</li>             
+				</li>
 			</ul>
 		</div>
 	</div>

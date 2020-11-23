@@ -3,8 +3,9 @@
 	<div class="popular-product-area wrapper-padding-3 pt-115 pb-115">
 		<div class="container-fluid">
 			<div class="section-title-6 text-center mb-50">
-				<h2>Popular Product</h2>
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</p>
+				<h2>Pet Care</h2>
+				<p>Pet Care adalah aplikasi yang bisa membantu meningkatkan kepedulian masyarakat terhadap hewan sekitar dengan memberikan panduan
+				pemeliharaan hewan untuk memantau pertumbuhan dan perkembangan hewan peliharaannya.</p>
 			</div>
 			<div class="product-style">
 				<div class="popular-product-active owl-carousel">

@@ -5,11 +5,19 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card card-default">
-                    <div class="card-header card-header-border-bottom">
+                    <div  class="card-header card-header-border-bottom">
                         <h2>Products</h2>
+                        @if (Auth::user()->hasRole('Admin'))
+                        <div>
+                        {{ Auth::user()->first_name }}
+                        </div>
+                        @endif
+                        
                     </div>
+            
                     <div class="card-body">
                         @include('admin.partials.flash')
+
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <th>#</th>

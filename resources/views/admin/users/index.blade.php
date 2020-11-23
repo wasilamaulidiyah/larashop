@@ -28,7 +28,7 @@
                                         <td>{{ $user->roles->implode('name', ', ') }}</td>
                                         <td>{{ $user->created_at }}</td>
                                         <td>
-                                        @if (!$user->hasRole('Admin'))
+                                        @if ($user->hasRole('Admin'))
                                             @can('edit_categories')
                                                 <a href="{{ url('admin/users/'. $user->id .'/edit') }}" class="btn btn-warning btn-sm">edit</a>
                                             @endcan
