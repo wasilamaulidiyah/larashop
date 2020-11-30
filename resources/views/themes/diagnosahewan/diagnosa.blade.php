@@ -21,7 +21,7 @@
   <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8">
-          <form method="POST" action="{{url('')}}">
+          <form method="POST" action="{{url('kulit')}}">
           <div class="card">
               <div class="card-header">Gangguan Pada Kulit Hewan Peliharaan</div>
                 @if (session('message'))
@@ -138,7 +138,7 @@
   <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8">
-          <form method="POST" action="{{url('')}}">
+          <form method="POST" action="{{url('pencernaan')}}">
           <div class="card">
               <div class="card-header">Gangguan Pencernaan Pada Hewan Peliharaan</div>
                 @if (session('message'))
@@ -255,7 +255,7 @@
   <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8">
-          <form method="POST" action="{{url('')}}">
+          <form method="POST" action="{{url('pernafasan')}}">
           <div class="card">
               <div class="card-header">Gangguan Pernafasan Pada Hewan Peliharaan</div>
                 @if (session('message'))

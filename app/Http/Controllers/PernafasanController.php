@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use App\Models\GangguanPernafasan;
+use Auth;
 
-use App\Models\AkunPremium;
-
-class AkunPremiumController extends Controller
+class PernafasanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class AkunPremiumController extends Controller
      */
     public function index()
     {
-        return view("/themes/akun/akunpremium");
+        return view("/themes/diagnosahewan/diagnosa");
     }
 
     /**
@@ -37,24 +37,17 @@ class AkunPremiumController extends Controller
      */
     public function store(Request $request)
     {
-        $vouchers = DB::table('akun_premia')->select('id','voucher','is_required')->get();
-        $cust_voucher = $request->input('voucher');
-        $is_valid = false;
-        $user = \Auth::user();
-        
-        foreach ($vouchers as $value) {
-            
-            if(strcmp($cust_voucher, $value->voucher) == 0){
-                $user->first_name;
-                    $user->save();
-                if($value->is_required == 1){
-                    $is_valid = true;
-                    $user->is_premium = 1;
-                    $user->save();
-                }
-            }
-          }
-          return redirect('/diagnosa');
+        $kulit = new GangguanPernafasan();
+        $kulit->user_id = Auth::user()->id;
+        $kulit->soal1 = $request->input('soal1');
+        $kulit->soal2 = $request->input('soal2');
+        $kulit->soal3 = $request->input('soal3');
+        $kulit->soal4 = $request->input('soal4');
+        $kulit->soal5 = $request->input('soal5');
+        $kulit->soal6 = $request->input('soal6');
+        $kulit->save();
+
+        return redirect('/diagnosa');
     }
 
     /**

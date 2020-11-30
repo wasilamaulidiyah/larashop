@@ -56,6 +56,12 @@ Route::resource('akunpremium', 'AkunPremiumController');
 
 Route::resource('voucher', 'VoucherController');
 
+Route::resource('kulit', 'KulitController');
+Route::resource('pencernaan', 'PencernaanController');
+Route::resource('pernafasan', 'PernafasanController');
+
+Route::resource('artikel','ArtikelController');
+
 Route::group(
 	['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth']],
 	function () {

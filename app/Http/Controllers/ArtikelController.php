@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ArtikelPet;
+use Auth;
 
 class ArtikelController extends Controller
 {
@@ -13,7 +15,7 @@ class ArtikelController extends Controller
      */
     public function index()
     {
-        //
+        return view("/themes/artikel/artikel");
     }
 
     /**
@@ -23,7 +25,7 @@ class ArtikelController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -34,7 +36,14 @@ class ArtikelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $artikel = new ArtikelPet();
+        $artikel->user_id = Auth::user()->id;
+        $artikel->judul= $request->input('judul');
+        $artikel->author = $request->input('author');
+        $artikel->konten = $request->input('konten');
+        $artikel->save();
+        
+        return redirect('/artikel');
     }
 
     /**
