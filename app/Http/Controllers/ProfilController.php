@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use Hash;
 
 class ProfilController extends Controller
 {
@@ -19,8 +20,9 @@ class ProfilController extends Controller
             return redirect("/login");
         }
         else{
+            $is_update = false;
             $user = Auth::user();
-            return view ("/themes/profiluser/profil", ['user' => $user]);
+            return view ("/themes/profiluser/profil", ['user' => $user, 'is_update' => $is_update]);
         }
     }
 
@@ -64,7 +66,9 @@ class ProfilController extends Controller
      */
     public function edit($id)
     {
-        //
+        $is_update = true;
+        $user = Auth::user();
+        return view ("/themes/profiluser/profil", ['user' => $user, 'is_update' => $is_update]);
     }
 
     /**
@@ -76,7 +80,14 @@ class ProfilController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = Auth::user();
+        $user->first_name = $request -> input('firstname');
+        $user->last_name = $request -> input('lastname');
+        $user->email = $request -> input('email');
+        $user->password = Hash::make($request -> input('password'));
+        $user->save();
+
+        return redirect ("/profil");
     }
 
     /**
