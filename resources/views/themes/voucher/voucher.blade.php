@@ -1,6 +1,7 @@
 @extends('themes.ezone.layout')
 
 @section('content')
+@if (Auth::user()!= null && Auth::user()->is_admin==1)
 <div class='container'>
     <div class="d-flex justify-content-center">
         <form class = 'form-inline' method="POST" action="{{url('voucher')}}">
@@ -35,5 +36,5 @@
     </div>
 
 </div>
-
+@endif
 @endsection

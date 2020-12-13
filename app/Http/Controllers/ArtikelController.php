@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ArtikelPet;
 use Auth;
+use DB;
 
 class ArtikelController extends Controller
 {
@@ -15,7 +16,9 @@ class ArtikelController extends Controller
      */
     public function index()
     {
-        return view("/themes/artikel/artikel");
+        $artikels = DB::table('artikel_pets')->select()->get();
+
+        return view("/themes/artikel/artikel", ['artikels'=>$artikels]);
     }
 
     /**
@@ -65,7 +68,7 @@ class ArtikelController extends Controller
      */
     public function edit($id)
     {
-        //
+    
     }
 
     /**
@@ -77,7 +80,25 @@ class ArtikelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'judul' => 'required',
+            'author' => 'required',
+            'konten' => 'required'
+        ]);
+        
+        $artikel-> update([
+            'judul' => \Str::slug($request->judul),
+            'author' => $request->author,
+            'konten' => $request->konten,
+        ]);
+        // $artikel = ArtikelPet::find($id);
+        // $artikel->user_id = Auth::user()->id;
+        // $artikel->judul= $request->input('judul');
+        // $artikel->author = $request->input('author');
+        // $artikel->konten = $request->input('konten');
+        // $artikel->save();
+        
+        return redirect('/artikel');
     }
 
     /**

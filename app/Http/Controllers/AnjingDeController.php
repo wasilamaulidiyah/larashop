@@ -16,7 +16,23 @@ class AnjingDeController extends Controller
      */
     public function index()
     {
-        return view("/themes/ezone/perkembanganhewan/anjing");
+        $anjingres = DB::table('anjing_dewasas')->select()->get();
+
+        $id_user = Auth::user()->id;
+        $array_tmp = array();
+
+        foreach($anjingdes as $anjingde){
+            if($id_user == $anjingde->user_id){
+                array_push($array_tmp, $anjingde);
+            }
+        }
+
+        if(Auth::user()->is_admin == 1){
+            return view("/themes/ezone/perkembanganhewan/anjing", ['anjingdes'=>$anjingdes]);
+        }
+        else{
+            return view("/themes/ezone/perkembanganhewan/anjing", ['anjingdes'=>$array_tmp]);
+        }
     }
 
     /**
@@ -45,6 +61,7 @@ class AnjingDeController extends Controller
         $anjingde->soal4 = $request->input('soal4');
         $anjingde->soal5 = $request->input('soal5');
         $anjingde->soal6 = $request->input('soal6');
+        $anjingde->feedback = "";
         $anjingde->save();
 
         return redirect('/anjing');
@@ -81,7 +98,17 @@ class AnjingDeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $anjingde = AnjingDewasa::find($id);
+        $anjingde->soal1 = $request->input('soal1');
+        $anjingde->soal2 = $request->input('soal2');
+        $anjingde->soal3 = $request->input('soal3');
+        $anjingde->soal4 = $request->input('soal4');
+        $anjingde->soal5 = $request->input('soal5');
+        $anjingde->soal6 = $request->input('soal6');
+        $anjingde->feedback = $request->input('feedback');
+        $anjingde->save();
+
+        return redirect('/anjing');
     }
 
     /**

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Diagnosa;
 
 class DiagnosaController extends Controller
 {
@@ -13,7 +16,23 @@ class DiagnosaController extends Controller
      */
     public function index()
     {
-        return view("/themes/diagnosahewan/diagnosa");
+        $kulits = DB::table('gangguan_kulits')->select()->get();
+
+        $id_user = Auth::user()->id;
+        $array_tmp = array();
+
+        foreach($kulits as $kulit){
+            if($id_user == $kulit->user_id){
+                array_push($array_tmp, $kulit);
+            }
+        }
+
+        if(Auth::user()->is_admin == 1){
+            return view("/themes/diagnosahewan/diagnosa", ['kulits'=>$kulits]);
+        }
+        else{
+            return view("/themes/diagnosahewan/diagnosa", ['kulits'=>$array_tmp]);
+        }
     }
 
     /**
@@ -34,7 +53,18 @@ class DiagnosaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $kulit = new GangguanKulit();
+        $kulit->user_id = Auth::user()->id;
+        $kulit->soal1 = $request->input('soal1');
+        $kulit->soal2 = $request->input('soal2');
+        $kulit->soal3 = $request->input('soal3');
+        $kulit->soal4 = $request->input('soal4');
+        $kulit->soal5 = $request->input('soal5');
+        $kulit->soal6 = $request->input('soal6');
+        $kulit->feedback = "";
+        $kulit->save();
+
+        return redirect('/diagnosa');
     }
 
     /**
@@ -68,7 +98,18 @@ class DiagnosaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $kulit = GangguanKulit::find($id);
+        $kulit->user_id = Auth::user()->id;
+        $kulit->soal1 = $request->input('soal1');
+        $kulit->soal2 = $request->input('soal2');
+        $kulit->soal3 = $request->input('soal3');
+        $kulit->soal4 = $request->input('soal4');
+        $kulit->soal5 = $request->input('soal5');
+        $kulit->soal6 = $request->input('soal6');
+        $kulit->feedback = $request->input('feedback');
+        $kulit->save();
+
+        return redirect('/diagnosa');
     }
 
     /**

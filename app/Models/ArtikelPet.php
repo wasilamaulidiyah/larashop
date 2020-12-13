@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArtikelPet extends Model
 {
-    protected $fillable = [
+    // protected $table = 'artikel_pets';
+    
+    protected $fillable = 
+    [
         'id',
         'user_id',
         'judul', 

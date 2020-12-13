@@ -43,6 +43,12 @@ Route::get('profile', 'Auth\ProfileController@index');
 Route::post('profile', 'Auth\ProfileController@update');
 
 Route::resource('kucing', 'KucingController');
+Route::resource('hasilkitten', 'HasilKitController');
+Route::resource('hasilkure', 'HasilKureController');
+Route::resource('hasilkude', 'HasilKudeController');
+Route::resource('hasilpuppy', 'HasilAnakController');
+Route::resource('hasilare', 'HasilAreController');
+Route::resource('hasilade', 'HasilAdeController');
 Route::resource('kucingre', 'KucingReController');
 Route::resource('kucingde', 'KucingDeController');
 
@@ -51,6 +57,9 @@ Route::resource('anjingre', 'AnjingReController');
 Route::resource('anjingde', 'AnjingDeController');
 
 Route::resource('diagnosa', 'DiagnosaController');
+Route::resource('diagnosakulit', 'KulitController');
+Route::resource('diagnosapencernaan', 'PencernaanController');
+Route::resource('diagnosapernafasan', 'PernafasanController');
 
 Route::resource('akunpremium', 'AkunPremiumController');
 
@@ -61,6 +70,14 @@ Route::resource('pencernaan', 'PencernaanController');
 Route::resource('pernafasan', 'PernafasanController');
 
 Route::resource('artikel','ArtikelController');
+Route::resource('artikelkucing','ArtikelKucingController');
+Route::resource('artikelanjing','ArtikelAnjingController');
+
+Route::resource('rekapuser','RekapUserController');
+
+Route::resource('profil', 'ProfilController');
+
+Route::resource('products', 'ProductController');
 
 Route::group(
 	['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth']],
@@ -69,7 +86,7 @@ Route::group(
 		Route::resource('categories', 'CategoryController');
 
 
-		Route::resource('products', 'ProductController');
+		
 		Route::get('products/{productID}/images', 'ProductController@images')->name('products.images');
 		Route::get('products/{productID}/add-image', 'ProductController@addImage')->name('products.add_image');
 		Route::post('products/images/{productID}', 'ProductController@uploadImage')->name('products.upload_image');

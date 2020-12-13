@@ -27,6 +27,7 @@ class Puppy extends Migration
                 $table->string('soal7');
                 $table->string('soal8');
                 $table->string('soal9');
+                $table->longText('feedback');
 				$table->timestamps();
 
 				$table->foreign('user_id')->references('id')->on('users');

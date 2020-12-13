@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Slide;
+use App\Models\ArtikelKucing;
+use DB;
 
 /**
  * HomeController
@@ -43,6 +45,9 @@ class HomeController extends Controller
 
 		$slides = Slide::active()->orderBy('position', 'ASC')->get();
 		$this->data['slides'] = $slides;
+
+		$artikels = DB::table('artikel_pets')->select()->get();
+		$this->data['artikels'] = $artikels;
 
 		return $this->loadTheme('home', $this->data);
 	}

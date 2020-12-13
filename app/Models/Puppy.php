@@ -17,6 +17,7 @@ class Puppy extends Model
         'soal7', 
         'soal8', 
         'soal9',
+        'feedback'
     ];
     
     public static function types()

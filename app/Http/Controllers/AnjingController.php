@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Models\Puppy;
 use Auth;
+use DB;
 
 
 class AnjingController extends Controller
@@ -17,7 +18,24 @@ class AnjingController extends Controller
      */
     public function index()
     {
-        return view("/themes/ezone/perkembanganhewan/anjing");
+        $anjings = DB::table('puppies')->select()->get();
+
+        $id_user = Auth::user()->id;
+        $array_tmp = array();
+
+        foreach($anjings as $anjing){
+            if($id_user == $anjing->user_id){
+                array_push($array_tmp, $anjing);
+            }
+        }
+
+        if(Auth::user()->is_admin == 1){
+            return view("/themes/ezone/perkembanganhewan/anjing", ['anjings'=>$anjings]);
+        }
+        else{
+            return view("/themes/ezone/perkembanganhewan/anjing", ['anjings'=>$array_tmp]);
+        }
+        
     }
 
     /**
@@ -40,7 +58,7 @@ class AnjingController extends Controller
     {
         $anjing = new Puppy ();
         $anjing->user_id = Auth::user()->id;
-        $anjing->soal1= $request->input('soal1');
+        $anjing->soal1 = $request->input('soal1');
         $anjing->soal2 = $request->input('soal2');
         $anjing->soal3 = $request->input('soal3');
         $anjing->soal4 = $request->input('soal4');
@@ -49,6 +67,7 @@ class AnjingController extends Controller
         $anjing->soal7 = $request->input('soal7');
         $anjing->soal8 = $request->input('soal8');
         $anjing->soal9 = $request->input('soal9');
+        $anjing->feedback = "";
         $anjing->save();
 
 
@@ -86,7 +105,19 @@ class AnjingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $anjing = Puppy::find ($id);
+        $anjing->soal1 = $request->input('soal1');
+        $anjing->soal2 = $request->input('soal2');
+        $anjing->soal3 = $request->input('soal3');
+        $anjing->soal4 = $request->input('soal4');
+        $anjing->soal5 = $request->input('soal5');
+        $anjing->soal6 = $request->input('soal6');
+        $anjing->soal7 = $request->input('soal7');
+        $anjing->soal8 = $request->input('soal8');
+        $anjing->soal9 = $request->input('soal9');
+        $anjing->feedback = $request->input ('feedback');
+        $anjing->save();
+        return redirect('/anjing');
     }
 
     /**

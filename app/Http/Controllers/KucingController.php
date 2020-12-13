@@ -19,7 +19,23 @@ class KucingController extends Controller
     {
         $kucings = DB::table('kittens')->select()->get();
 
-        return view("/themes/ezone/perkembanganhewan/kucing", ['kucings'=>$kucings]);
+        $id_user = Auth::user()->id;
+        $array_tmp = array();
+
+        foreach($kucings as $kucing){
+            if($id_user == $kucing->user_id){
+                array_push($array_tmp, $kucing);
+            }
+        }
+
+        if(Auth::user()->is_admin == 1){
+            return view("/themes/ezone/perkembanganhewan/kucing", ['kucings'=>$kucings]);
+        }
+        else{
+            return view("/themes/ezone/perkembanganhewan/kucing", ['kucings'=>$array_tmp]);
+        }
+            
+        
     }
 
     /**
@@ -78,7 +94,8 @@ class KucingController extends Controller
      */
     public function edit($id)
     {
-        //
+        
+
     }
 
     /**
@@ -90,7 +107,19 @@ class KucingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $kucing = Kitten::find($id);
+        $kucing->soal1 = $request->input('soal1');
+        $kucing->soal2 = $request->input('soal2');
+        $kucing->soal3 = $request->input('soal3');
+        $kucing->soal4 = $request->input('soal4');
+        $kucing->soal5 = $request->input('soal5');
+        $kucing->soal6 = $request->input('soal6');
+        $kucing->soal7 = $request->input('soal7');
+        $kucing->soal8 = $request->input('soal8');
+        $kucing->soal9 = $request->input('soal9');
+        $kucing->feedback = $request->input('feedback');
+        $kucing->save();
+        return redirect('/kucing');
     }
 
     /**

@@ -43,15 +43,16 @@ class AkunPremiumController extends Controller
         $user = \Auth::user();
         
         foreach ($vouchers as $value) {
-            
-            if(strcmp($cust_voucher, $value->voucher) == 0){
-                $user->first_name;
-                    $user->save();
-                if($value->is_required == 1){
+            $voucher=AkunPremium::find($value->id);
+            if(strcmp($cust_voucher, $voucher->voucher) == 0){
+                if($voucher->is_required == 1){
                     $is_valid = true;
+                    $voucher->is_required = 0;
                     $user->is_premium = 1;
+                    $voucher->save();
                     $user->save();
                 }
+
             }
           }
           return redirect('/diagnosa');

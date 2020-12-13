@@ -14,6 +14,7 @@ class KucingDewasa extends Model
         'soal4', 
         'soal5',
         'soal6',
+        'feedback',
     ];
     
     public static function types()

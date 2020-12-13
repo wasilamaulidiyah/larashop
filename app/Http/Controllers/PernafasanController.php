@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Models\GangguanPernafasan;
 use Auth;
+use DB;
 
 class PernafasanController extends Controller
 {
@@ -16,7 +17,23 @@ class PernafasanController extends Controller
      */
     public function index()
     {
-        return view("/themes/diagnosahewan/diagnosa");
+        $pernapasans = DB::table('gangguan_pernafasans')->select()->get();
+
+        $id_user = Auth::user()->id;
+        $array_tmp = array();
+
+        foreach($pernapasans as $pernapasan){
+            if($id_user == $pernapasan->user_id){
+                array_push($array_tmp, $pernapasan);
+            }
+        }
+
+        if(Auth::user()->is_admin == 1){
+            return view("/themes/diagnosahewan/diagnosapernafasan", ['pernapasans'=>$pernapasans]);
+        }
+        else{
+            return view("/themes/diagnosahewan/diagnosapernafasan", ['pernapasans'=>$array_tmp]);
+        }
     }
 
     /**
@@ -37,17 +54,18 @@ class PernafasanController extends Controller
      */
     public function store(Request $request)
     {
-        $kulit = new GangguanPernafasan();
-        $kulit->user_id = Auth::user()->id;
-        $kulit->soal1 = $request->input('soal1');
-        $kulit->soal2 = $request->input('soal2');
-        $kulit->soal3 = $request->input('soal3');
-        $kulit->soal4 = $request->input('soal4');
-        $kulit->soal5 = $request->input('soal5');
-        $kulit->soal6 = $request->input('soal6');
-        $kulit->save();
+        $pernapasan = new GangguanPernafasan();
+        $pernapasan->user_id = Auth::user()->id;
+        $pernapasan->soal1 = $request->input('soal1');
+        $pernapasan->soal2 = $request->input('soal2');
+        $pernapasan->soal3 = $request->input('soal3');
+        $pernapasan->soal4 = $request->input('soal4');
+        $pernapasan->soal5 = $request->input('soal5');
+        $pernapasan->soal6 = $request->input('soal6');
+        $pernapasan->feedback = "";
+        $pernapasan->save();
 
-        return redirect('/diagnosa');
+        return redirect('/diagnosapernafasan');
     }
 
     /**
@@ -81,7 +99,17 @@ class PernafasanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pernapasan = GangguanPernafasan::find($id);
+        $pernapasan->soal1 = $request->input('soal1');
+        $pernapasan->soal2 = $request->input('soal2');
+        $pernapasan->soal3 = $request->input('soal3');
+        $pernapasan->soal4 = $request->input('soal4');
+        $pernapasan->soal5 = $request->input('soal5');
+        $pernapasan->soal6 = $request->input('soal6');
+        $pernapasan->feedback = $request->input('feedback');
+        $pernapasan->save();
+
+        return redirect('/diagnosapernafasan');
     }
 
     /**

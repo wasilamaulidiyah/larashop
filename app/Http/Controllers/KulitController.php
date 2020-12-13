@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Models\GangguanKulit;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class KulitController extends Controller
 {
@@ -16,7 +17,24 @@ class KulitController extends Controller
      */
     public function index()
     {
-        return view("/themes/diagnosahewan/diagnosa");    }
+        $kulits = DB::table('gangguan_kulits')->select()->get();
+
+        $id_user = Auth::user()->id;
+        $array_tmp = array();
+
+        foreach($kulits as $kulit){
+            if($id_user == $kulit->user_id){
+                array_push($array_tmp, $kulit);
+            }
+        }
+
+        if(Auth::user()->is_admin == 1){
+            return view("/themes/diagnosahewan/diagnosakulit", ['kulits'=>$kulits]);
+        }
+        else{
+            return view("/themes/diagnosahewan/diagnosakulit", ['kulits'=>$array_tmp]);
+        }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -44,9 +62,10 @@ class KulitController extends Controller
         $kulit->soal4 = $request->input('soal4');
         $kulit->soal5 = $request->input('soal5');
         $kulit->soal6 = $request->input('soal6');
+        $kulit->feedback = '';
         $kulit->save();
 
-        return redirect('/diagnosa');
+        return redirect('/diagnosakulit');
     }
 
     /**
@@ -80,7 +99,17 @@ class KulitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $kulit = GangguanKulit::find($id);
+        $kulit->soal1 = $request->input('soal1');
+        $kulit->soal2 = $request->input('soal2');
+        $kulit->soal3 = $request->input('soal3');
+        $kulit->soal4 = $request->input('soal4');
+        $kulit->soal5 = $request->input('soal5');
+        $kulit->soal6 = $request->input('soal6');
+        $kulit->feedback = $request->input('feedback');
+        $kulit->save();
+
+        return redirect('/diagnosakulit');
     }
 
     /**

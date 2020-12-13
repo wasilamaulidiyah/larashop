@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Models\KucingRemaja;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class KucingReController extends Controller
 {
@@ -16,7 +17,23 @@ class KucingReController extends Controller
      */
     public function index()
     {
-        return view("/themes/ezone/perkembanganhewan/kucing");
+        $kucingres = DB::table('kucing_remajas')->select()->get();
+
+        $id_user = Auth::user()->id;
+        $array_tmp = array();
+
+        foreach($kucingres as $kucingre){
+            if($id_user == $kucingre->user_id){
+                array_push($array_tmp, $kucingre);
+            }
+        }
+
+        if(Auth::user()->is_admin == 1){
+            return view("/themes/ezone/perkembanganhewan/kucing", ['kucingres'=>$kucingres]);
+        }
+        else{
+            return view("/themes/ezone/perkembanganhewan/kucing", ['kucingres'=>$array_tmp]);
+        }
     }
 
     /**
@@ -46,9 +63,10 @@ class KucingReController extends Controller
         $kucingre->soal5 = $request->input('soal5');
         $kucingre->soal6 = $request->input('soal6');
         $kucingre->soal7 = $request->input('soal7');
+        $kucingre->feedback = "";
         $kucingre->save();
 
-        return redirect('/kucing');
+        return redirect('/kucingre');
     }
 
     /**
@@ -82,7 +100,17 @@ class KucingReController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $kucingre = KucingRemaja::find($id);
+        $kucingre->soal1 = $request->input('soal1');
+        $kucingre->soal2 = $request->input('soal2');
+        $kucingre->soal3 = $request->input('soal3');
+        $kucingre->soal4 = $request->input('soal4');
+        $kucingre->soal5 = $request->input('soal5');
+        $kucingre->soal6 = $request->input('soal6');
+        $kucingre->soal7 = $request->input('soal7');
+        $kucingre->feedback = $request->input('feedback');
+        $kucingre->save();
+        return redirect('/kucingre');
     }
 
     /**

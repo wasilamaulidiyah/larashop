@@ -25,6 +25,7 @@ class Anjingremaja extends Migration
                 $table->string('soal5');
                 $table->string('soal6');
                 $table->string('soal7');
+                $table->longText('feedback');
 				$table->timestamps();
 
 				$table->foreign('user_id')->references('id')->on('users');

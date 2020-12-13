@@ -15,6 +15,7 @@ class AnjingRemaja extends Model
         'soal5',
         'soal6',
         'soal7', 
+        'feedback',
     ];
     
     public static function types()

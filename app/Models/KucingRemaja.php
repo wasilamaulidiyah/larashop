@@ -14,7 +14,8 @@ class KucingRemaja extends Model
         'soal4', 
         'soal5',
         'soal6',
-        'soal7', 
+        'soal7',
+        'feedback'
     ];
     
     public static function types()

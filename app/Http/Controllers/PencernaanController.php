@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Models\GangguanPencernaan;
 use Auth;
+use DB;
 
 class PencernaanController extends Controller
 {
@@ -16,7 +17,23 @@ class PencernaanController extends Controller
      */
     public function index()
     {
-        return view("/themes/diagnosahewan/diagnosa");
+        $pencernaans = DB::table('gangguan_pencernaans')->select()->get();
+
+        $id_user = Auth::user()->id;
+        $array_tmp = array();
+
+        foreach($pencernaans as $pencernaan){
+            if($id_user == $pencernaan->user_id){
+                array_push($array_tmp, $pencernaan);
+            }
+        }
+
+        if(Auth::user()->is_admin == 1){
+            return view("/themes/diagnosahewan/diagnosapencernaan", ['pencernaans'=>$pencernaans]);
+        }
+        else{
+            return view("/themes/diagnosahewan/diagnosapencernaan", ['pencernaans'=>$array_tmp]);
+        }
     }
 
     /**
@@ -37,17 +54,18 @@ class PencernaanController extends Controller
      */
     public function store(Request $request)
     {
-        $kulit = new GangguanPencernaan();
-        $kulit->user_id = Auth::user()->id;
-        $kulit->soal1 = $request->input('soal1');
-        $kulit->soal2 = $request->input('soal2');
-        $kulit->soal3 = $request->input('soal3');
-        $kulit->soal4 = $request->input('soal4');
-        $kulit->soal5 = $request->input('soal5');
-        $kulit->soal6 = $request->input('soal6');
-        $kulit->save();
+        $pencernaan = new GangguanPencernaan();
+        $pencernaan->user_id = Auth::user()->id;
+        $pencernaan->soal1 = $request->input('soal1');
+        $pencernaan->soal2 = $request->input('soal2');
+        $pencernaan->soal3 = $request->input('soal3');
+        $pencernaan->soal4 = $request->input('soal4');
+        $pencernaan->soal5 = $request->input('soal5');
+        $pencernaan->soal6 = $request->input('soal6');
+        $pencernaan->feedback ="";
+        $pencernaan->save();
 
-        return redirect('/diagnosa');
+        return redirect('/diagnosapencernaan');
     }
 
     /**
@@ -81,7 +99,17 @@ class PencernaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pencernaan = GangguanPencernaan::find($id);
+        $pencernaan->soal1 = $request->input('soal1');
+        $pencernaan->soal2 = $request->input('soal2');
+        $pencernaan->soal3 = $request->input('soal3');
+        $pencernaan->soal4 = $request->input('soal4');
+        $pencernaan->soal5 = $request->input('soal5');
+        $pencernaan->soal6 = $request->input('soal6');
+        $pencernaan->feedback = $request->input('feedback');
+        $pencernaan->save();
+
+        return redirect('/diagnosapencernaan');
     }
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Models\KucingDewasa;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class KucingDeController extends Controller
 {
@@ -16,7 +17,23 @@ class KucingDeController extends Controller
      */
     public function index()
     {
-        return view("/themes/ezone/perkembanganhewan/kucing");
+        $kucingdes = DB::table('kucing_dewasas')->select()->get();
+
+        $id_user = Auth::user()->id;
+        $array_tmp = array();
+
+        foreach($kucingdes as $kucingde){
+            if($id_user == $kucingde->user_id){
+                array_push($array_tmp, $kucingde);
+            }
+        }
+
+        if(Auth::user()->is_admin == 1){
+            return view("/themes/ezone/perkembanganhewan/kucing", ['kucingdes'=>$kucingdes]);
+        }
+        else{
+            return view("/themes/ezone/perkembanganhewan/kucing", ['kucingdes'=>$array_tmp]);
+        }
     }
 
     /**
@@ -45,6 +62,7 @@ class KucingDeController extends Controller
         $kucingde->soal4 = $request->input('soal4');
         $kucingde->soal5 = $request->input('soal5');
         $kucingde->soal6 = $request->input('soal6');
+        $kucingde->feedback = "";
         $kucingde->save();
 
         return redirect('/kucing');
@@ -81,7 +99,16 @@ class KucingDeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $kucingde = KucingDewasa::find($id);
+        $kucingde->soal1 = $request->input('soal1');
+        $kucingde->soal2 = $request->input('soal2');
+        $kucingde->soal3 = $request->input('soal3');
+        $kucingde->soal4 = $request->input('soal4');
+        $kucingde->soal5 = $request->input('soal5');
+        $kucingde->soal6 = $request->input('soal6');
+        $kucingde->feedback = $request->input('feedback');
+        $kucingde->save();
+        return redirect('/kucing');
     }
 
     /**

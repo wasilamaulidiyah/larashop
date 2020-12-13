@@ -24,6 +24,7 @@ class Kulit extends Migration
                 $table->string('soal4');
                 $table->string('soal5');
                 $table->string('soal6');
+                $table->longText('feedback');
 				$table->timestamps();
 
 				$table->foreign('user_id')->references('id')->on('users');
